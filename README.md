@@ -10,12 +10,12 @@ In Log We Trust
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-gunicorn --reload --bind 127.0.0.1:65432 src.wsgi:run
+python src/server.py
 ```
 
 ## Deploy
 - Install docker
-- `docker-compose up`
+- `docker-compose up --build`
 - Link to local [Kibana](http://localhost:5601) (port 5601)
 - 
 

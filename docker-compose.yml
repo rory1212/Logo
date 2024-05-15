@@ -9,7 +9,7 @@ services:
     ports:
       - "9200:9200"
     networks:
-      - elastic
+      - logo-network
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.15.2
@@ -19,7 +19,7 @@ services:
     ports:
       - "5601:5601"
     networks:
-      - elastic
+      - logo-network
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.15.2
@@ -32,8 +32,18 @@ services:
     ports:
       - "5044:5044"
     networks:
-      - elastic
+      - logo-network
+
+  server:
+    container_name: logo
+    build: .
+    ports:
+      - "1313:1313"
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    networks:
+      - logo-network
 
 networks:
-  elastic:
+  logo-network:
     driver: bridge

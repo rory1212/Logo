@@ -31,10 +31,14 @@ def start_server(host: str, port: int, logstash: LogstashClient) -> None:
                     conn.sendall(str(error).encode())
 
 
-if __name__ == "__main__":
+def run():
     server_config = config["server"]
     logstash_config = config["logstash"]
     logstash_client = LogstashClient(logstash_config["host"], logstash_config["port"])
     logstash_client.connect()
     start_server(server_config["host"], server_config["port"], logstash_client)
     logstash_client.close()
+
+
+if __name__ == "__main__":
+    run()
