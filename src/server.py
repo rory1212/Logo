@@ -26,6 +26,7 @@ def start_server(host: str, port: int) -> None:
                 try:
                     client_message = read_message(conn)
                     log_message = f"{get_current_timestamp()} {addr[0]}:{addr[1]} - {client_message}"
+                    print("LOG:", log_message)
                     conn.sendall("ok".encode())
                 except IOError as error:
                     conn.sendall(str(error).encode())
