@@ -1,5 +1,6 @@
 import socket
 from src.config.config import config
+from src.utils.time import get_current_timestamp
 
 
 def read_message(conn: socket.socket) -> str:
@@ -18,14 +19,13 @@ def start_server(host: str, port: int) -> None:
         print(f"Server started on {host}:{port}")
 
         server_socket.listen()
-        print("Waiting for a connection...")
-
         conn, addr = server_socket.accept()
         with conn:
             print(f"Connected by {addr}")
             while True:
                 try:
-                    msg = read_message(conn)
+                    client_message = read_message(conn)
+                    log_message = f"{get_current_timestamp()} {addr[0]}:{addr[1]} - {client_message}"
                     conn.sendall("ok".encode())
                 except IOError as error:
                     conn.sendall(str(error).encode())

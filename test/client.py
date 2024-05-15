@@ -11,14 +11,14 @@ def start_client(host: str, port: int) -> None:
             while True:
                 message = input("Enter message to send (or 'exit' to quit): ")
                 if message.lower() == 'exit':
-                    print("Closing connection...")
+                    print("Closing connection")
                     break
 
                 client_socket.sendall(message.encode())
                 response = client_socket.recv(1024)
                 print(f"Received from server: {response.decode()}")
         except KeyboardInterrupt:
-            print("\nClient interrupted and closing connection...")
+            print("\nClient interrupted and closing connection")
         except Exception as e:
             print(f"An error occurred: {e}")
 
