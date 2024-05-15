@@ -1,4 +1,5 @@
 import socket
+from config import config
 
 
 def start_server(host: str, port: int) -> None:
@@ -19,4 +20,5 @@ def start_server(host: str, port: int) -> None:
 
 
 if __name__ == "__main__":
-    start_server("127.0.0.1", 65432)
+    server_config = config["server"]
+    start_server(server_config["host"], server_config["port"])
