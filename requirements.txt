@@ -1,0 +1,8 @@
+gunicorn~=22.0.0
+PyYAML~=6.0.1
+tzlocal~=5.2
+logstash_formatter~=0.5.17
+pip~=24.0
+packaging~=24.0
+logstash~=0.1.dev0
+python-logstash~=0.4.8

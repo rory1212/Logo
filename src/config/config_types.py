@@ -12,4 +12,5 @@ class LogConfig(TypedDict):
 
 class Config(TypedDict):
     server: ServerConfig
+    logstash: ServerConfig
     log: LogConfig

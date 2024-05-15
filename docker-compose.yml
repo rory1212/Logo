@@ -26,6 +26,7 @@ services:
     container_name: logstash
     volumes:
       - ./external_sources/logstash/config:/usr/share/logstash/config
+      - ./external_sources/logstash/pipeline:/usr/share/logstash/pipeline
     environment:
       - "ELASTICSEARCH_HOST=http://elasticsearch:9200"
     ports:
