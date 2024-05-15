@@ -1,6 +1,5 @@
 import socket
-
-PORT = 65432
+from src.config.config import config
 
 
 def start_client(host: str, port: int) -> None:
@@ -25,4 +24,5 @@ def start_client(host: str, port: int) -> None:
 
 
 if __name__ == "__main__":
-    start_client("127.0.0.1", PORT)
+    server_config = config["server"]
+    start_client(server_config["host"], server_config["port"])

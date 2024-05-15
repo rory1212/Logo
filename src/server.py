@@ -1,5 +1,15 @@
 import socket
-from config import config
+from src.config.config import config
+
+
+def read_message(conn: socket.socket) -> str:
+    max_length = config["log"]["max_length"]
+    packet = conn.recv(max_length)
+    if len(packet) == max_length:
+        raise IOError(f"Payload is too big. Maximum length: {max_length}")
+    if not packet:
+        return ""
+    return packet.decode().rstrip('\n')
 
 
 def start_server(host: str, port: int) -> None:
@@ -14,9 +24,11 @@ def start_server(host: str, port: int) -> None:
         with conn:
             print(f"Connected by {addr}")
             while True:
-                data = conn.recv(1024)
-                print(f"Received: {data.decode()}")
-                conn.sendall(data)
+                try:
+                    msg = read_message(conn)
+                    conn.sendall("ok".encode())
+                except IOError as error:
+                    conn.sendall(str(error).encode())
 
 
 if __name__ == "__main__":
