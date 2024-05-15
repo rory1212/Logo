@@ -3,6 +3,7 @@ import json
 from src.logstash_logger.logstash_client_types import LogstashLog
 from retry import retry
 
+
 class LogstashClient:
     def __init__(self, host: str, port: int):
         self.host = host

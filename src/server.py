@@ -19,16 +19,24 @@ def start_server(host: str, port: int, logstash: LogstashClient) -> None:
         print(f"Server started on {host}:{port}")
 
         server_socket.listen()
-        conn, addr = server_socket.accept()
-        with conn:
-            print(f"Connected by {addr}")
-            while True:
-                try:
-                    client_message = read_message(conn)
-                    logstash.send_log({"message": client_message, "ip": addr[0], "port": addr[1]})
-                    conn.sendall("ok".encode())
-                except IOError as error:
-                    conn.sendall(str(error).encode())
+        while True:
+            conn, addr = server_socket.accept()
+            with conn:
+                print(f"{addr} Connected")
+                while True:
+                    try:
+                        client_message = read_message(conn)
+                        logstash.send_log({"message": client_message, "ip": addr[0], "port": addr[1]})
+                        conn.sendall("ok".encode())
+                    except IOError as error:
+                        try:
+                            conn.sendall(str(error).encode())
+                        except:
+                            print(f"{addr} Disconnected")
+                            break
+                    except:
+                        print(f"{addr} Disconnected")
+                        break
 
 
 def run():
