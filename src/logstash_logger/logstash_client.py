@@ -1,7 +1,7 @@
 import socket
 import json
 from src.logstash_logger.logstash_client_types import LogstashLog
-
+from retry import retry
 
 class LogstashClient:
     def __init__(self, host: str, port: int):
@@ -9,6 +9,7 @@ class LogstashClient:
         self.port = port
         self.sock = None
 
+    @retry(ConnectionRefusedError, delay=2, backoff=2, max_delay=5)
     def connect(self) -> None:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((self.host, self.port))

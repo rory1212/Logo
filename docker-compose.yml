@@ -39,8 +39,6 @@ services:
     build: .
     ports:
       - "1313:1313"
-    volumes:
-      - ./config.yaml:/app/config.yaml
     networks:
       - logo-network
 
