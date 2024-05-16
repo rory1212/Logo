@@ -6,11 +6,11 @@ from src.server import start_server
 
 def update_config():
     args = parse_args()
-    logstash_config = config["logstash"]
+    logstash = config["logstash"]
     if args.ip is not None:
-        logstash_config["host"] = args.ip
+        logstash["host"] = args.ip
     if args.port is not None:
-        logstash_config["port"] = args.port
+        logstash["port"] = args.port
 
 
 if __name__ == "__main__":
