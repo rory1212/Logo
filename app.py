@@ -4,7 +4,7 @@ from src.logstash_logger.logstash_client import LogstashClient
 from src.server import start_server
 
 
-def update_config():
+def load_args_to_config():
     args = parse_args()
     logstash = config["logstash"]
     if args.ip is not None:
@@ -14,7 +14,7 @@ def update_config():
 
 
 if __name__ == "__main__":
-    update_config()
+    load_args_to_config()
     server_config = config["server"]
     logstash_config = config["logstash"]
 

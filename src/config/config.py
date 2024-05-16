@@ -21,7 +21,7 @@ def load_config() -> Config:
         curr_env = os.environ['ENV']
         try:
             curr_config = load_file(get_file_path(f"config.{curr_env.lower()}.yaml"))
-            base_config = update_dict(base_config, curr_config)
+            return update_dict(base_config, curr_config)
         except IOError:
             print(f"Env {curr_env} is not exists")
 
