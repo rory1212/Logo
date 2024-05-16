@@ -1,8 +1,11 @@
 # Logo
 In Log We Trust
 
+#### By Joseph Drachinsky
+
 ## Pre-Installations
 1. Python 3.12.3
+2. Docker
 
 ## Run
 ### Local Developing
@@ -14,7 +17,6 @@ python src/server.py
 ```
 
 ## Deploy
-- Install docker
 - `docker-compose up --build`
 - Link to local [Kibana](http://localhost:5601) (port 5601)
 #### All services are online! 

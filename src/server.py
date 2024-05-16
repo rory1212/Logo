@@ -1,4 +1,5 @@
 import socket
+import threading
 from typing import Any
 
 from src.config.config import config
@@ -44,4 +45,5 @@ def start_server(host: str, port: int, logstash: LogstashClient) -> None:
         server_socket.listen()
         while True:
             conn, addr = server_socket.accept()
-            handle_connection(conn, addr, logstash)
+            client_thread = threading.Thread(target=handle_connection, args=(conn, addr, logstash))
+            client_thread.start()
