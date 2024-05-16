@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    networks:
+      - logo-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.2
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - logo-network
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.15.2
+    container_name: logstash
+    volumes:
+      - ./external_sources/logstash/config:/usr/share/logstash/config
+      - ./external_sources/logstash/pipeline:/usr/share/logstash/pipeline
+    environment:
+      - "ELASTICSEARCH_HOST=http://elasticsearch:9200"
+    ports:
+      - "5044:5044"
+    networks:
+      - logo-network
+
+  server:
+    container_name: logo
+    build: .
+    ports:
+      - "1313:1313"
+    networks:
+      - logo-network
+
+networks:
+  logo-network:
+    driver: bridge
