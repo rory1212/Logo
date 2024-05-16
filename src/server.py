@@ -42,7 +42,7 @@ def start_server(host: str, port: int, logstash: LogstashClient) -> None:
         server_socket.bind((host, port))
         print(f"Server started on {host}:{port}")
 
-        # To allow Ctrl+C KeyboardInterrupt, we need to release the "server_socket.accept()" some times
+        # To allow Ctrl+C KeyboardInterrupt, we need to release the "server_socket.accept()" occasionally
         server_socket.settimeout(5)
         server_socket.listen()
         while True:
