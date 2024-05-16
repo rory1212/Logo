@@ -1,7 +1,4 @@
-from typing import TypedDict
+from typing import Any, Dict
 
 
-class LogstashLog(TypedDict):
-    message: str
-    ip: str
-    port: int
+LogstashLog = Dict[str, Any]

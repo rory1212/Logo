@@ -2,7 +2,6 @@ import os
 import yaml
 
 from src.config.config_types import Config
-from src.utils.update_dict import update_dict
 
 
 def get_file_path(filename: str) -> str:
@@ -21,7 +20,7 @@ def load_config() -> Config:
         curr_env = os.environ['ENV']
         try:
             curr_config = load_file(get_file_path(f"config.{curr_env.lower()}.yaml"))
-            update_dict(base_config, curr_config)
+            base_config = {**base_config, **curr_config}
         except IOError:
             print(f"Env {curr_env} is not exists")
 

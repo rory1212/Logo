@@ -1,7 +1,10 @@
 import socket
 import json
-from src.logstash_logger.logstash_client_types import LogstashLog
+
 from retry import retry
+
+from src.config.config_types import ServerConfig
+from src.logstash_logger.logstash_client_types import LogstashLog
 
 
 class LogstashClient:
@@ -15,7 +18,14 @@ class LogstashClient:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((self.host, self.port))
 
-    def send_log(self, data: LogstashLog) -> None:
+    def send_log(self, data: LogstashLog, connection_overrides: ServerConfig = None) -> None:
+        if connection_overrides is not None:
+            new_sock = LogstashClient(connection_overrides["host"], connection_overrides["port"])
+            new_sock.connect()
+            new_sock.send_log(data)
+            new_sock.close()
+            return
+
         if self.sock is None:
             raise Exception("Socket is not connected. Call connect() first.")
         log_message = json.dumps(data)

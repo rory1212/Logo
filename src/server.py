@@ -1,7 +1,8 @@
 import socket
+from typing import Any
 
-from src.args_parser import parse_args
 from src.config.config import config
+from src.log_message_parser import parse_log
 from src.logstash_logger.logstash_client import LogstashClient
 
 
@@ -15,6 +16,26 @@ def read_message(conn: socket.socket) -> str:
     return packet.decode().rstrip('\n')
 
 
+def handle_connection(conn: socket.socket, addr: Any, logstash: LogstashClient):
+    with conn:
+        print(f"{addr} Connected")
+        while True:
+            try:
+                client_message = read_message(conn)
+                parsed_log = parse_log(client_message, addr[0], addr[1])
+                logstash.send_log(parsed_log["log"], parsed_log["logstash_overrides"])
+                conn.sendall("ok".encode())
+            except IOError as error:
+                try:
+                    conn.sendall(str(error).encode())
+                except Exception as e:
+                    print(f"{addr} Disconnected.", e)
+                    break
+            except Exception as e:
+                print(f"{addr} Disconnected.", e)
+                break
+
+
 def start_server(host: str, port: int, logstash: LogstashClient) -> None:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.bind((host, port))
@@ -23,45 +44,4 @@ def start_server(host: str, port: int, logstash: LogstashClient) -> None:
         server_socket.listen()
         while True:
             conn, addr = server_socket.accept()
-            with conn:
-                print(f"{addr} Connected")
-                while True:
-                    try:
-                        client_message = read_message(conn)
-                        logstash.send_log({"message": client_message, "ip": addr[0], "port": addr[1]})
-                        conn.sendall("ok".encode())
-                    except IOError as error:
-                        try:
-                            conn.sendall(str(error).encode())
-                        except:
-                            print(f"{addr} Disconnected")
-                            break
-                    except:
-                        print(f"{addr} Disconnected")
-                        break
-
-
-def update_config():
-    args = parse_args()
-    logstash_config = config["logstash"]
-    if args.ip is not None:
-        logstash_config["host"] = args.ip
-    if args.port is not None:
-        logstash_config["port"] = args.port
-
-
-def run():
-    update_config()
-    server_config = config["server"]
-    logstash_config = config["logstash"]
-
-    logstash_client = LogstashClient(logstash_config["host"], logstash_config["port"])
-    logstash_client.connect()
-
-    start_server(server_config["host"], server_config["port"], logstash_client)
-
-    logstash_client.close()
-
-
-if __name__ == "__main__":
-    run()
+            handle_connection(conn, addr, logstash)

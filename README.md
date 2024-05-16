@@ -17,8 +17,28 @@ python src/server.py
 - Install docker
 - `docker-compose up --build`
 - Link to local [Kibana](http://localhost:5601) (port 5601)
+#### All services are online! 
 
-#### All services is online! 
+## Messages Logo types
+- Text message. Will log inside "message" field
+- JSON. Logo can receive JSONs. Fields:
+  - body - full body of the log. Can contain any field.
+  - logstash
+    - host - override the ip configuration
+    - port - override the port configuration
+  - example:
+  ```json
+  {
+    "body": {
+      "message": "Hello World!",
+      "count": 6
+    },
+    "logstash": {
+      "host": "localhost",
+      "port": "5044"
+    }
+  }
+  ```
 
 ## Work process
 ### Tools used
