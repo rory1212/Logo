@@ -13,7 +13,7 @@ class LogstashClient:
         self.port = port
         self.sock = None
 
-    @retry(ConnectionRefusedError, delay=2, backoff=2, max_delay=5)
+    @retry(ConnectionRefusedError, delay=3, backoff=2, max_delay=10)
     def connect(self) -> None:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((self.host, self.port))
