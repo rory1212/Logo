@@ -1,14 +1,16 @@
 # Logo
 In Log We Trust
 
+Logo is a free and open source server side log shipping service that ingests data from multiple sources,
+transforms it a bit, and sends it to your favorite centralized log service.
+
 #### By Joseph Drachinsky
 
 ## Pre-Installations
-1. Python 3.12.3
-2. Docker
+- Python 3.12.3 
+- Docker
 
 ## Run
-### Local Developing
 ```bash
 python -m venv venv
 venv\Scripts\activate
@@ -58,3 +60,6 @@ Client testing tool - [client.py](external_sources/client/client.py) (Run: `pyth
 - [X] Then Logo passes all the log messages to a logstash.
 - [X] The IP address and TCP port number of logstash are configurable.
 - [X] Logo is always up and running, ready to serve new messages on any failure - Logo is always on and never stops.
+
+#### Open bugs
+- [ ] No prints in the server while deployed on decker.
