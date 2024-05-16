@@ -1,6 +1,6 @@
 import socket
 import threading
-from typing import Any
+from typing import Tuple
 
 from src.config.config import config
 from src.log_message_parser import parse_log
@@ -17,7 +17,7 @@ def read_message(conn: socket.socket) -> str:
     return packet.decode().rstrip('\n')
 
 
-def handle_connection(conn: socket.socket, addr: Any, logstash: LogstashClient):
+def handle_connection(conn: socket.socket, addr: Tuple[str, int], logstash: LogstashClient):
     with conn:
         print(f"{addr} Connected")
         while True:
