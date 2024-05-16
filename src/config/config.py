@@ -2,7 +2,7 @@ import os
 import yaml
 
 from src.config.config_types import Config
-from src.src.utils.update_dict import update_dict
+from src.utils.update_dict import update_dict
 
 
 def get_file_path(filename: str) -> str:
