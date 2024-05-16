@@ -13,7 +13,7 @@ In Log We Trust
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-python src/server.py
+python app.py
 ```
 
 ## Deploy
